@@ -1,12 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://xcjrjq5cbn7y"]
+[gd_scene load_steps=24 format=3 uid="uid://xcjrjq5cbn7y"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.gd" id="1_2v3wm"]
 [ext_resource type="PackedScene" uid="uid://bkmywv3rot0ui" path="res://models/man.blend" id="2_1bble"]
 [ext_resource type="Texture2D" uid="uid://vwob30tkwej4" path="res://addons/kenney_particle_pack/star_06.png" id="3_27dhu"]
 [ext_resource type="AudioStream" uid="uid://cyp0dip0hu5qd" path="res://audio/gunshot.ogg" id="4_56v1d"]
 [ext_resource type="PackedScene" uid="uid://83cgs8n8136j" path="res://models/lasergun.blend" id="4_x7mbp"]
+[ext_resource type="Script" path="res://Scenes/Player/States/JumpState.gd" id="5_63lwo"]
 [ext_resource type="PackedScene" uid="uid://cbfh13w0xw7gi" path="res://models/futuristicpistol-complete.blend" id="5_ikpur"]
-
+[ext_resource type="Script" path="res://Scenes/Player/States/StateMachine.gd" id="7_n0ov5"]
+[ext_resource type="Script" path="res://Scenes/Player/States/IdleState.gd" id="8_plfx0"]
+[ext_resource type="Script" path="res://Scenes/Player/States/MoveState.gd" id="9_kgv7b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_67y6s"]
 
@@ -163,6 +166,20 @@ properties/2/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_2v3wm")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("7_n0ov5")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("8_plfx0")
+
+[node name="MoveState" type="Node" parent="StateMachine"]
+script = ExtResource("9_kgv7b")
+
+[node name="JumpState" type="Node" parent="StateMachine"]
+script = ExtResource("5_63lwo")
+
+[node name="Node5" type="Node" parent="StateMachine"]
 
 [node name="man" parent="." instance=ExtResource("2_1bble")]
 transform = Transform3D(-0.1, 0, -8.74228e-09, 0, 0.1, 0, 8.74228e-09, 0, -0.1, 0, 0, 0)

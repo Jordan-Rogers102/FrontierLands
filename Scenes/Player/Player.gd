@@ -1,7 +1,10 @@
 extends CharacterBody3D
 
 signal health_changed(health_value)
-
+@onready var state_machine = $StateMachine
+@onready var idle_state = preload("res://Scenes/Player/States/IdleState.gd").new()
+@onready var move_state = preload("res://Scenes/Player/States/MoveState.gd").new()
+@onready var jump_state = preload("res://Scenes/Player/States/JumpState.gd").new()
 @onready var camera = $Camera3D
 @onready var anim_player = $AnimationPlayer
 @onready var muzzle_flash = $Camera3D/Pistol/MuzzleFlash
@@ -81,6 +84,10 @@ func _ready():
 		
 	if is_ready and ammo_counter:
 		update_ammo_counter()	
+	state_machine.add_child(idle_state)
+	state_machine.add_child(move_state)
+	state_machine.add_child(jump_state)
+	state_machine.change_state(idle_state)
 	
 
 func update_ammo_counter():
@@ -93,6 +100,8 @@ func update_ammo_counter():
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
+	if state_machine.current_state:
+		state_machine.current_state.handle_input(event)
 	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * .005)
@@ -119,14 +128,13 @@ func _unhandled_input(event):
 func _physics_process(delta):
 
 	if not is_multiplayer_authority(): return
+	if state_machine.current_state:
+		state_machine.current_state.physics_update(delta)
 	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.

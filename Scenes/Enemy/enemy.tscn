@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://5k1o5ctvtah6"]
+[gd_scene load_steps=14 format=3 uid="uid://5k1o5ctvtah6"]
 
 [ext_resource type="Script" path="res://Scenes/Enemy/enemy.gd" id="1_phvpf"]
 [ext_resource type="PackedScene" uid="uid://cf1dcxwv6bvl3" path="res://models/Pistol.glb" id="2_u1s3k"]
@@ -7,7 +7,11 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q7x2r"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgt3n"]
+texture_filter = 5
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_an04p"]
+material = SubResource("StandardMaterial3D_bgt3n")
 
 [sub_resource type="GDScript" id="GDScript_t1skp"]
 script/source = "extends Node3D
