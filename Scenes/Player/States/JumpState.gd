@@ -3,7 +3,7 @@ extends State
 func enter(_prev_state: State) -> void:
 	# Apply jump velocity
 	player.velocity.y = player.JUMP_VELOCITY
-	player.anim_player.play("jump")
+	#player.anim_player.play("jump")
 
 func physics_update(delta: float) -> void:
 	var input = Input.get_vector("left", "right", "up", "down")

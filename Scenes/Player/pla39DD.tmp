@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://83cgs8n8136j" path="res://models/lasergun.blend" id="4_x7mbp"]
 [ext_resource type="Script" path="res://Scenes/Player/States/JumpState.gd" id="5_63lwo"]
 [ext_resource type="PackedScene" uid="uid://cbfh13w0xw7gi" path="res://models/futuristicpistol-complete.blend" id="5_ikpur"]
-[ext_resource type="Script" path="res://Scenes/Player/States/SprintState.gd" id="6_slwju"]
+[ext_resource type="Script" path="res://Scenes/Player/SprintState.gd" id="6_slwju"]
 [ext_resource type="Script" path="res://Scenes/Player/States/StateMachine.gd" id="7_n0ov5"]
 [ext_resource type="Script" path="res://Scenes/Player/States/IdleState.gd" id="8_plfx0"]
 [ext_resource type="Script" path="res://Scenes/Player/States/MoveState.gd" id="9_kgv7b"]
@@ -235,14 +235,6 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 4
 metadata/_edit_use_anchors_ = true
-
-[node name="StaminaBar" type="ProgressBar" parent="Camera3D"]
-offset_left = 38.0
-offset_top = 563.0
-offset_right = 151.0
-offset_bottom = 590.0
-value = 100.0
-show_percentage = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

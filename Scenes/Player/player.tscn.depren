@@ -236,14 +236,6 @@ grow_vertical = 0
 size_flags_horizontal = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="StaminaBar" type="ProgressBar" parent="Camera3D"]
-offset_left = 38.0
-offset_top = 563.0
-offset_right = 151.0
-offset_bottom = 590.0
-value = 100.0
-show_percentage = false
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_p6wdk")

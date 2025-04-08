@@ -5,6 +5,7 @@ signal health_changed(health_value)
 @onready var idle_state = preload("res://Scenes/Player/States/IdleState.gd").new()
 @onready var move_state = preload("res://Scenes/Player/States/MoveState.gd").new()
 @onready var jump_state = preload("res://Scenes/Player/States/JumpState.gd").new()
+@onready var sprint_state = preload("res://Scenes/Player/States/SprintState.gd").new()
 @onready var camera = $Camera3D
 @onready var anim_player = $AnimationPlayer
 @onready var muzzle_flash = $Camera3D/Pistol/MuzzleFlash
@@ -15,7 +16,6 @@ signal health_changed(health_value)
 @onready var ammo_counter = null
 @onready var hitmarker = $CanvasLayer/HUD/Hitmarker  # Adjust path to match your scene
 @onready var reticle = $CanvasLayer/HUD/Reticle
-
 
 var is_crouching : bool = false
 var bullet_spawn
@@ -29,9 +29,9 @@ var current_health = max_health
 var health:int = 100
 var is_ready = false
 var speed = 5.0
-var gravity = 20.0
+var gravity = 10.0
 var is_reloading = false 
-const JUMP_VELOCITY = 10.0
+const JUMP_VELOCITY = 7.0
 
 
 func take_damageP(amount) -> void:
@@ -136,23 +136,8 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("left", "right", "up", "down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
-
 	if anim_player.current_animation == "shoot":
 		pass
-	elif input_dir != Vector2.ZERO and is_on_floor():
-		anim_player.play("move")
-	else:
-		anim_player.play("idle")
 
 	move_and_slide()
 	
@@ -163,11 +148,8 @@ func _on_animation_player_animation_finished(anim_name):
 		
 # Called every frame
 func _process(delta: float):
-	# Check if the player is holding shift to run
 	# Speeds are subject to change
-	if Input.is_action_pressed("player_run") and is_crouching == false:
-		speed = 12.0
-	elif Input.is_action_just_pressed("ui_crouch"):
+	if Input.is_action_just_pressed("ui_crouch"):
 		print("Crouch")
 		toggle_crouch()
 		speed = 3.5
@@ -175,7 +157,6 @@ func _process(delta: float):
 			camera.position.y = crouch_height / 2.0
 		else:
 			camera.position.y = standing_height / 1.3
-
 	else:
 		speed = 5.0
 		
